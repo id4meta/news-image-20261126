@@ -140,7 +140,7 @@ STORIES = [
      "summary": "KCNA reported Thursday that Kim inspected nuclear facilities Wednesday and refused denuclearization.",
      "region": "East Asia", "source": "KCNA / CNN", "tag": "OFFICIAL",
      "lon": 125.8, "lat": 39.0, "dx": -8, "dy": -7},
-    {"id": 9, "tier": "card", "title": "Overnight Strikes Kill Eight in Gaza",
+    {"id": 9, "tier": "card", "title": "Night Strikes Kill Eight in Gaza",
      "summary": "Israeli raids killed at least eight Palestinians, including Hamas official Khaled Abu Nada.",
      "region": "Middle East", "source": "Gaza Health / IDF", "tag": "CONFIRMED",
      "lon": 34.5, "lat": 31.5, "dx": 0, "dy": 0},
