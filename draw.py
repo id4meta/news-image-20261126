@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
-"""news-image-20261126 v2 — "one-page pictorial" front page (1024x1024 PNG).
+"""news-image-20261126 v4 — "one-page pictorial" front page (1024x1024 PNG).
 
 Hand-written in this session from the Antigravity v2 spec
-(~/workspace/makefun-news-image-20261126/v2-spec.md). Layout is entirely
-new (giant date masthead, 3 hero illustrations + 10 small cards, numbers
-band, UTC timeline, numbered-pin map, one-line list, DATE CHECK box);
-nothing is copied from the rejected v1 draw.py except the rough
-continent-outline polygon data used for the map.
+(~/workspace/makefun-news-image-20261126/v2-spec.md), then revised by hand
+through three review rounds plus a fresh-AI full review (2026-11-27).
+v4 changes: Gaza 10 (was 8), Kuwait 2 dead 2 injured, FedEx timezone,
+13:30 parade removed from the timeline, chess Game 3 drawn 1.5-1.5,
+map pins re-seated, ISS ground track redrawn across the equator,
+DATE CHECK back to a red frame, illustration small-text removed.
+Layout is entirely new (giant date masthead, 3 hero illustrations +
+10 small cards, numbers band, UTC timeline, numbered-pin map,
+one-line list, DATE CHECK box); nothing is copied from the rejected
+v1 draw.py except the rough continent-outline polygon data used for
+the map.
 
 Deterministic: no random/time/datetime, fixed font files, PNG saved with
 optimize=True, compress_level=9 and no metadata. Run:
@@ -37,7 +43,7 @@ GOLD = (217, 119, 6)           # #D97706 warm gold
 OCEAN = (219, 231, 240)        # #DBE7F0 map ocean
 LAND = (231, 222, 200)         # #E7DEC8 map land
 LAND_EDGE = (201, 191, 169)    # map land outline
-DC_BG = (254, 242, 242)        # #FEF2F2 DATE CHECK background
+DC_BG = (245, 245, 244)        # #F5F5F4 DATE CHECK background (muted stone)
 
 TAG_COLOR = {
     "OFFICIAL": (21, 128, 61),    # #15803D
@@ -60,7 +66,7 @@ EDITION_DATE = "Thursday, 26 November 2026"
 KICKER_LEFT = "THE WORLD IN ONE DAY · THURSDAY EDITION"
 KICKER_RIGHT = "36 STORIES · 9 REGIONS · 20+ SOURCES"
 DECK = ("Macy's 100th parade postponed for storm; India honors 26/11 "
-        "victims; Gukesh–Sindarov Game 3 tied 1–1.")
+        "victims; Gukesh–Sindarov draw Game 3, tied 1.5–1.5.")
 
 REGIONS = [
     ("Europe", "EUR", 8, "#3B5B8C"),
@@ -84,10 +90,9 @@ BY_THE_NUMBERS = [
 
 UTC_TIMELINE = [
     ("00:50", "BOK hikes to 3.25%"),
-    ("01:40", "FedEx MIA overrun"),
-    ("07:45", "Bangkok refinery blast"),
+    ("01:40", "#19 FedEx overrun"),
+    ("07:45", "Bangkok refinery fire"),
     ("12:08", "Progress 97 at ISS"),
-    ("13:30", "Parade skipped (storm)"),
     ("14:00", "Chess Game 3 starts"),
 ]
 
@@ -101,58 +106,60 @@ DATE_CHECK = [
     "FCC approved SpaceX Starmind — 25 Nov",
     "SA court Phala Phala ruling — 25 Nov",
 ]
-DATE_CHECK_UPCOMING = "Upcoming: Macy's Parade Sat 28 Nov · Spain Election Sun 29 Nov"
+UPCOMING_LINE = "Upcoming: Macy's Parade Sat 28 Nov · Spain Election Sun 29 Nov"
 
 # 36 stories, transcribed from spec section 7 JSON.
-# Deviation from spec, measured: story #19's line_text is shortened by one
-# word ("01:40 UTC" -> "01:40") because the full line is 315px at 11px and
-# the sub-column is 302px wide; every other row fits unchanged.
+# Deviation from spec, measured: story #19's line_text is reworded
+# ("FedEx 910 overruns in Miami (01:40 UTC)", 291px) so the UTC timezone
+# fits the 302px sub-column; the review's fuller wording
+# ("Miami recovers after FedEx 910 overrun (01:40 UTC)", 345px) does not
+# fit. Every other row fits unchanged.
 STORIES = [
     {"id": 1, "tier": "hero", "title": "Macy's 100th Parade Postponed to Saturday",
-     "summary": "New York moved Thursday's centennial parade to Saturday over 45–65 mph storm gust forecasts.",
+     "summary": "New York moved Thursday's parade to Saturday over 45–65 mph gusts; NBC aired the 2025 encore.",
      "region": "North America", "source": "NYC Mayor / Macy's", "tag": "OFFICIAL",
      "lon": -74.0, "lat": 40.7, "dx": 0, "dy": 0},
-    {"id": 2, "tier": "hero", "title": "India Marks 18 Years Since 26/11",
+    {"id": 2, "tier": "hero", "title": "India Marks 18 Years Since the 26/11 Attacks",
      "summary": "U.S. Ambassador Sergio Gor honored 166 Mumbai terror victims as India marked Constitution Day.",
      "region": "South Asia", "source": "U.S. Embassy / PIB", "tag": "OFFICIAL",
      "lon": 72.9, "lat": 19.1, "dx": 0, "dy": 0},
-    {"id": 3, "tier": "hero", "title": "Gukesh Faces Sindarov in Game 3",
-     "summary": "World Chess Championship Game 3 began in Geneva with the match tied 1–1.",
+    {"id": 3, "tier": "hero", "title": "Gukesh, Sindarov Draw Game 3 to Stay Tied 1.5–1.5",
+     "summary": "World Chess Championship Game 3 ended in a 60-move draw in Geneva; the match is tied 1.5–1.5.",
      "region": "Europe", "source": "FIDE", "tag": "OFFICIAL",
-     "lon": 6.1, "lat": 46.2, "dx": -8, "dy": 7},
+     "lon": 6.1, "lat": 46.2, "dx": -5, "dy": 2},
     {"id": 4, "tier": "card", "title": "EU Summit Clashes Over Budget, Ukraine Loan",
      "summary": "Brussels talks stalled on next long-term budget and a proposed €45B loan for Kyiv.",
      "region": "Europe", "source": "EU Council / Guardian", "tag": "CONFIRMED",
-     "lon": 4.4, "lat": 50.8, "dx": -4, "dy": -9},
+     "lon": 4.4, "lat": 50.8, "dx": 5, "dy": -4},
     {"id": 5, "tier": "card", "title": "Russian Missiles Strike Kyiv, Odesa Grain Ships",
      "summary": "Barrage injured seven in Kyiv and hit two foreign vessels carrying 100,000t of grain.",
-     "region": "Europe", "source": "Ukraine / NV", "tag": "REPORTED",
+     "region": "Europe", "source": "Ukraine / NV", "tag": "CONFIRMED",
      "lon": 30.5, "lat": 50.5, "dx": 0, "dy": 0},
     {"id": 6, "tier": "card", "title": "Blast and Fire Hit Bangkok Oil Refinery",
      "summary": "Bangchak hydrocracker explosion injured nine workers, halted output, and sparked brief local evacuations.",
      "region": "Southeast Asia", "source": "Thai Min. / CNA", "tag": "CONFIRMED",
-     "lon": 100.5, "lat": 13.8, "dx": 0, "dy": 0},
-    {"id": 7, "tier": "card", "title": "Bank of Korea Hikes Rate to 3.25%",
+     "lon": 100.5, "lat": 13.8, "dx": 0, "dy": -3},
+    {"id": 7, "tier": "card", "title": "Bank of Korea Raises Key Rate to 3.25%",
      "summary": "Central bank raised rates 25 bps on AI-boom inflation while KOSPI stocks rebounded.",
      "region": "East Asia", "source": "Bank of Korea", "tag": "OFFICIAL",
-     "lon": 127.0, "lat": 37.6, "dx": 9, "dy": 6},
+     "lon": 127.0, "lat": 37.6, "dx": -3, "dy": 4},
     {"id": 8, "tier": "card", "title": "Kim Urges Wider Tactical Nuclear Deployment",
      "summary": "KCNA reported Thursday that Kim inspected nuclear facilities Wednesday and refused denuclearization.",
-     "region": "East Asia", "source": "KCNA / CNN", "tag": "OFFICIAL",
-     "lon": 125.8, "lat": 39.0, "dx": -8, "dy": -7},
-    {"id": 9, "tier": "card", "title": "Night Strikes Kill Eight in Gaza",
-     "summary": "Israeli raids killed at least eight Palestinians, including Hamas official Khaled Abu Nada.",
-     "region": "Middle East", "source": "Gaza Health / IDF", "tag": "CONFIRMED",
+     "region": "East Asia", "source": "KCNA / CNN", "tag": "CLAIM",
+     "lon": 125.8, "lat": 39.0, "dx": 2, "dy": -4},
+    {"id": 9, "tier": "card", "title": "Israeli Strikes Kill 10 in Gaza",
+     "summary": "Israeli strikes killed at least 10 Palestinians, including Hamas official Khaled Abu Nada.",
+     "region": "Middle East", "source": "Gaza Health / AP / Reuters", "tag": "CONFIRMED",
      "lon": 34.5, "lat": 31.5, "dx": 0, "dy": 0},
-    {"id": 10, "tier": "card", "title": "Congo Ebola Passes 12,021 Cases, Prompting Curbs",
+    {"id": 10, "tier": "card", "title": "Congo Ebola Reaches 12,021 Confirmed Cases",
      "summary": "DRC outbreak hit 5,904 deaths as Canada, Bahamas, and Bahrain imposed traveler restrictions.",
-     "region": "Africa", "source": "DRC MoH / Fragomen", "tag": "OFFICIAL",
+     "region": "Africa", "source": "DRC MoH / WHO", "tag": "OFFICIAL",
      "lon": 29.5, "lat": 1.5, "dx": 0, "dy": 0},
     {"id": 11, "tier": "card", "title": "Historic King Tides Flood Coastal California",
      "summary": "El Niño–boosted surges broke pier structures and kept Thanksgiving coastal flood warnings active.",
      "region": "North America", "source": "NOAA / NWS", "tag": "OFFICIAL",
      "lon": -121.0, "lat": 36.0, "dx": 0, "dy": 0},
-    {"id": 12, "tier": "card", "title": "Brazil Condemns U.S. Excess-Capacity Tariff Plan",
+    {"id": 12, "tier": "card", "title": "Brazil Condemns U.S. Excess-Capacity Tariffs",
      "summary": "Brasília rejected Washington's newly unveiled tariffs and left reciprocal trade measures open.",
      "region": "Latin America", "source": "Brazil Gov.", "tag": "OFFICIAL",
      "lon": -47.9, "lat": -15.8, "dx": 0, "dy": 0},
@@ -176,7 +183,7 @@ STORIES = [
      "line_text": "Merz clashes with AfD over Ukraine aid",
      "short_source": "Bundestag", "tag": "CONFIRMED", "region": "Europe"},
     {"id": 19, "tier": "list", "title": "Miami Airport Recovers After FedEx Runway Overrun",
-     "line_text": "Miami recovers after FedEx 01:40 overrun",
+     "line_text": "FedEx 910 overruns in Miami (01:40 UTC)",
      "short_source": "FAA/FedEx", "tag": "CONFIRMED", "region": "North America"},
     {"id": 20, "tier": "list", "title": "NFL Thanksgiving Tripleheader Headlines Week 12 Slate",
      "line_text": "NFL Thanksgiving tripleheader kicks off Thu",
@@ -197,34 +204,34 @@ STORIES = [
      "line_text": "Ethiopia launches $1B defaulted bond swap",
      "short_source": "Eth. Fin.", "tag": "OFFICIAL", "region": "Africa"},
     {"id": 26, "tier": "list", "title": "Ethiopia Launches Inclusive Sudan Peace Dialogue Bid",
-     "line_text": "Ethiopia launches Sudan peace talks bid",
+     "line_text": "Sudan peace bid launched by Ethiopia",
      "short_source": "Sudan Trib.", "tag": "OFFICIAL", "region": "Africa"},
     {"id": 27, "tier": "list", "title": "South Africa Factory Inflation Jumps to 8.1%",
      "line_text": "South Africa Oct PPI jumps to 8.1%",
      "short_source": "Stats SA", "tag": "OFFICIAL", "region": "Africa"},
-    {"id": 28, "tier": "list", "title": "Kuwait Says Drone Debris Injured Four Workers",
-     "line_text": "Kuwait: drone shrapnel injures four",
+    {"id": 28, "tier": "list", "title": "Kuwait Says Drone Debris Killed Two, Injured Two",
+     "line_text": "Kuwait: drone shrapnel kills two, injures two",
      "short_source": "KW MoD", "tag": "OFFICIAL", "region": "Middle East"},
     {"id": 29, "tier": "list", "title": "Explosion Reported Near Tanker West of Dubai",
      "line_text": "Blast logged near tanker west of Dubai",
      "short_source": "UKMTO", "tag": "REPORTED", "region": "Middle East"},
     {"id": 30, "tier": "list", "title": "Manila Counts 48 Chinese Ships in Sea",
-     "line_text": "Manila logs 48 Chinese ships in sea",
+     "line_text": "Manila logs 48 Chinese ships in S. China Sea",
      "short_source": "PH AFP", "tag": "REPORTED", "region": "Southeast Asia"},
     {"id": 31, "tier": "list", "title": "Malaysia Plans Talks With Myanmar on Nationals",
-     "line_text": "Malaysia plans Myanmar talks on 200k",
+     "line_text": "Malaysia plans Myanmar talks: 200k refugees",
      "short_source": "MY Gov", "tag": "OFFICIAL", "region": "Southeast Asia"},
     {"id": 32, "tier": "list", "title": "Brazil Mid-November Inflation Slows to 0.22%",
      "line_text": "Brazil mid-Nov inflation slows to 0.22%",
      "short_source": "IBGE", "tag": "OFFICIAL", "region": "Latin America"},
     {"id": 33, "tier": "list", "title": "Seven Killed in Michoacán–Jalisco Cartel Shootout",
      "line_text": "Seven killed in Mexican cartel clash",
-     "short_source": "Arab News", "tag": "REPORTED", "region": "Latin America"},
+     "short_source": "Reuters", "tag": "REPORTED", "region": "Latin America"},
     {"id": 34, "tier": "list", "title": "India Presents 2036 Olympic Bid to IOC",
      "line_text": "India pitches 2036 Olympic bid to IOC",
      "short_source": "IOA", "tag": "OFFICIAL", "region": "South Asia"},
     {"id": 35, "tier": "list", "title": "Australian Senate Blasts Aged-Care Assessment Algorithm",
-     "line_text": "AU Senate blasts aged-care AI tool",
+     "line_text": "AU Senate blasts aged-care wait times",
      "short_source": "AU Senate", "tag": "OFFICIAL", "region": "Oceania & Global"},
     {"id": 36, "tier": "list", "title": "Top Banks Lag 6:1 Clean-Energy Ratio",
      "line_text": "Top 65 banks give 72¢ clean per $1 fossil",
@@ -442,7 +449,7 @@ def ill_2_mumbai():
                   fill=(245, 158, 11))
         d.polygon([(cx, 130), (cx + 3, 140), (cx, 146), (cx - 3, 140)],
                   fill=(254, 240, 138))
-    _banner(d, 618, 176, 40, "18 YEARS · 26/11", 26, fill=NAVY)
+    _banner(d, 618, 176, 40, "18 YEARS · 26/11", 26)
     return _finish(img, w, h)
 
 
@@ -468,16 +475,16 @@ def ill_3_chess():
          (15, 23, 42))
     king(16 + 4 * sq + sq // 2, 16 + 2 * sq + sq // 2, (31, 41, 55),
          (250, 250, 248))
-    # digital clock: dark slate box, two digit panels "1" and "1"
+    # digital clock: dark slate box, two digit panels "1.5" and "1.5"
     d.rounded_rectangle([300, 28, 600, 164], radius=10, fill=(31, 41, 55))
     for i, x0 in enumerate((318, 456)):
         d.rounded_rectangle([x0, 48, x0 + 66, 144], radius=6,
                             fill=(241, 245, 249))
-        f = _font(SANS_B, 64)
-        _draw_centered(d, x0 + 33, 62, "1", f, (15, 23, 42))
+        f = _font(SANS_B, 36)
+        _draw_centered(d, x0 + 33, 78, "1.5", f, (15, 23, 42))
     d.ellipse([432, 76, 444, 88], fill=(241, 245, 249))
     d.ellipse([432, 108, 444, 120], fill=(241, 245, 249))
-    _banner(d, 618, 176, 40, "GAME 3 · GENEVA", 26)
+    _banner(d, 618, 176, 40, "TIED 1.5–1.5 · GENEVA", 26)
     return _finish(img, w, h)
 
 
@@ -503,7 +510,7 @@ def ill_5_kyiv():
     """#5 Kyiv/Odesa — night sky, red missile, city, grain ship on waves."""
     w, h = 180, 58
     img, d = _ss(w, h)
-    d.rectangle([0, 0, 360, 116], fill=(31, 41, 55))           # #1F2937
+    d.rectangle([0, 0, 360, 116], fill=(58, 72, 95))           # lighter slate
     # city rectangles bottom-right with lit windows
     for x0, y0, x1 in ((210, 62, 244), (248, 48, 282), (286, 66, 316),
                        (320, 56, 352)):
@@ -592,8 +599,6 @@ def ill_8_nk():
         d.pieslice([cx - r + 6, cy - r + 6, cx + r - 6, cy + r - 6],
                    a0 - 26, a0 + 26, fill=(15, 23, 42))
     d.ellipse([cx - 9, cy - 9, cx + 9, cy + 9], fill=(15, 23, 42))
-    f = _font(SANS_B, 20)
-    _draw_centered(d, 296, 92, "KCNA", f, (255, 255, 255))
     return _finish(img, w, h)
 
 
@@ -601,7 +606,7 @@ def ill_9_gaza():
     """#9 Gaza — dark violet-gray field, broken buildings, smoke, GAZA tag."""
     w, h = 180, 58
     img, d = _ss(w, h)
-    d.rectangle([0, 0, 360, 116], fill=(39, 39, 42))           # #27272A
+    d.rectangle([0, 0, 360, 116], fill=(72, 72, 80))           # lighter gray
     # 4 damaged buildings with jagged tops
     for pts in ([(16, 116), (16, 56), (34, 44), (52, 58), (70, 48),
                  (86, 116)],
@@ -611,15 +616,11 @@ def ill_9_gaza():
                  (238, 116)],
                 [(248, 116), (248, 66), (264, 54), (282, 68), (300, 60),
                  (316, 116)]):
-        d.polygon(pts, fill=(82, 82, 91))
+        d.polygon(pts, fill=(125, 125, 135))
     # smoke ellipses
     for cx, cy, rx, ry in ((60, 34, 26, 12), (200, 26, 30, 13),
                            (290, 40, 22, 11)):
-        d.ellipse([cx - rx, cy - ry, cx + rx, cy + ry], fill=(113, 113, 122))
-    # red GAZA capsule bottom-right
-    d.rounded_rectangle([268, 88, 352, 112], radius=12, fill=RED)
-    f = _font(SANS_B, 18)
-    _draw_centered(d, 310, 92, "GAZA", f, (255, 255, 255))
+        d.ellipse([cx - rx, cy - ry, cx + rx, cy + ry], fill=(150, 150, 160))
     return _finish(img, w, h)
 
 
@@ -666,13 +667,11 @@ def ill_11_tides():
         for x in range(0, 361, 20):
             pts.append((x, y0 + (6 if (x // 20) % 2 == 0 else -6)))
         d.line(pts, fill=col, width=5)
-    # gauge pill with water height
+    # gauge pill with water height (no invented numbers: ticks + HIGH only)
     d.rounded_rectangle([300, 22, 352, 96], radius=8, fill=(15, 23, 42))
     d.rectangle([310, 52, 342, 86], fill=(2, 132, 199))
-    f = _font(SANS_B, 16)
-    _draw_centered(d, 326, 28, "8.21", f, (255, 255, 255))
-    f2 = _font(SANS_B, 13)
-    _draw_centered(d, 326, 74, "FT", f2, (255, 255, 255))
+    for ty in (34, 48, 62, 76, 90):
+        d.line([(304, ty), (312, ty)], fill=(255, 255, 255), width=2)
     return _finish(img, w, h)
 
 
@@ -689,15 +688,16 @@ def ill_12_brazil():
     # downward arrow
     d.line([(250, 20), (250, 52)], fill=(200, 30, 30), width=5)
     d.polygon([(250, 60), (238, 46), (262, 46)], fill=(200, 30, 30))
-    # red TARIFFS stamp, rotated -12 degrees
+    # red TARIFFS stamp, rotated -12 degrees, on the light right side
+    # (clear of the green/blue containers so the red does not clash)
     layer = Image.new("RGBA", (360, 116), (0, 0, 0, 0))
     ld = ImageDraw.Draw(layer)
     f = _font(SANS_B, 30)
     tw = ld.textlength("TARIFFS", font=f)
-    ld.rectangle([150 - tw / 2 - 8, 62, 150 + tw / 2 + 8, 100],
+    ld.rectangle([260 - tw / 2 - 8, 62, 260 + tw / 2 + 8, 100],
                  outline=(200, 30, 30, 255), width=4)
-    ld.text((150 - tw / 2, 68), "TARIFFS", font=f, fill=(200, 30, 30, 255))
-    layer = layer.rotate(-12, resample=Image.BICUBIC, center=(150, 81))
+    ld.text((260 - tw / 2, 68), "TARIFFS", font=f, fill=(200, 30, 30, 255))
+    layer = layer.rotate(-12, resample=Image.BICUBIC, center=(260, 81))
     img.paste(layer, (0, 0), layer)
     return _finish(img, w, h)
 
@@ -755,6 +755,17 @@ def draw_pins(d, map_x, map_y, map_w, map_h):
         return (map_x + (lon + 180) / 360 * map_w,
                 map_y + (90 - lat) / 180 * map_h)
 
+    # dashed ISS ground-track: centred on the equator, amplitude ~50px so
+    # the wave reaches about +/-51.6 deg latitude (the real ISS inclination)
+    import math
+    prev = None
+    for x in range(map_x + 8, map_x + map_w - 8, 4):
+        t = (x - map_x) / map_w
+        y = map_y + map_h * 0.5 + 50 * math.sin(t * math.pi * 2.2 - 0.6)
+        if prev is not None and (x // 12) % 2 == 0:
+            d.line([prev, (x, y)], fill=RED, width=2)
+        prev = (x, y)
+
     for s in STORIES:
         if s["tier"] == "list":
             continue
@@ -776,7 +787,7 @@ def draw_pins(d, map_x, map_y, map_w, map_h):
         if dx or dy:
             d.line([(x, y), (x + dx, y + dy)], fill=RED, width=1)
             x, y = x + dx, y + dy
-        _badge(d, x, y, 7, sid)
+        _badge(d, x, y, 8, sid)
 
 
 # -------------------------------------------------------------------- main
@@ -889,9 +900,9 @@ def main():
     f_tl_cap = _font(SANS_B, 10)
     _draw_centered(d, MX + 67, 646, "THE DAY IN UTC", f_tl_cap,
                    (255, 255, 255))
-    f_tl_t = _font(SANS_B, 10)
-    f_tl_l = _font(SANS_R, 10)
-    slot_x, slot_w = MX + 140, (MX + CW - (MX + 140)) / 6
+    f_tl_t = _font(SANS_B, 11)
+    f_tl_l = _font(SANS_R, 11)
+    slot_x, slot_w = MX + 140, (MX + CW - (MX + 140)) / len(UTC_TIMELINE)
     for i, (time, label) in enumerate(UTC_TIMELINE):
         cx = slot_x + slot_w * i
         d.ellipse([cx, 648, cx + 7, 655], fill=RED)
@@ -908,8 +919,8 @@ def main():
     d.rectangle([MX, 698, MX + 348, 698 + 186], outline=BORDER, width=1)
     draw_pins(d, MX, 698, 348, 186)
     f_map_f = _font(SANS_R, 9)
-    d.text((MX, 888), "PINS 1–13 MARK STORY LOCATIONS · ORBIT #13 (ISS) "
-                      "IN THE SOUTH PACIFIC", font=f_map_f, fill=GRAY)
+    d.text((MX, 888), "PINS 1–12 MARK STORY LOCATIONS · #13 SHOWS THE ISS ORBIT",
+           font=f_map_f, fill=GRAY)
 
     # --------------------------------- 8. one-line list, right (674..898)
     f_list_h = _font(SANS_B, 11)
@@ -940,10 +951,6 @@ def main():
     f_dc_t = _font(SANS_B, 11)
     d.text((MX + 10, 909), "DATE CHECK — EXCLUDED NEAR-MISSES",
            font=f_dc_t, fill=RED)
-    f_dc_u = _font(SANS_R, 10)
-    uw = d.textlength(DATE_CHECK_UPCOMING, font=f_dc_u)
-    d.text((MX + CW - 10 - uw, 910), DATE_CHECK_UPCOMING, font=f_dc_u,
-           fill=INK2)
     f_dc = _font(SANS_R, 10)
     for i, item in enumerate(DATE_CHECK):
         col, row = i // 4, i % 4
@@ -956,7 +963,7 @@ def main():
     f_f1 = _font(SANS_R, 10)
     d.text((MX, 972),
            "Every story here happened or was first reported on Thursday "
-           "26 November 2026.", font=f_f1, fill=INK2)
+           "26 November 2026. " + UPCOMING_LINE, font=f_f1, fill=INK2)
     f_f2 = _font(SANS_R, 9)
     fx = MX
     fy = 984
